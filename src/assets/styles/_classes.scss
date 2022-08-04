@@ -22,10 +22,14 @@
     background: var(--primary);
     color: white;
   }
-
   &-secondary {
     border: 1px solid var(--primary);
     background: white;
     color: var(--primary);
+  }
+
+  &-danger {
+    background: var(--danger);
+    color: white;
   }
 }

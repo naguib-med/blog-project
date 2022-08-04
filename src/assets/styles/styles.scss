@@ -18,15 +18,15 @@
 
 header {
   grid-area: header;
-  background: white;
-  padding: 1.2rem;
+  background: var(--primary);
+  padding: 1rem;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  box-shadow: 0px 0px 9px 3px rgba(41, 41, 41, 0.25);
   a {
-    color: var(--primary);
+    color: var(--light);
   }
   .header-brand {
     font-size: 4rem;
@@ -38,16 +38,16 @@ header {
     li {
       .header-nav {
         font-size: 1.8rem;
-        padding: 10px;
+        padding: 7px;
         margin-left: 10px;
-        border: 1px solid var(--primary);
+        border: 1px solid var(--light);
         border-radius: 0.375rem;
-        color: var(--primary);
+        color: white;
       }
 
       .active {
-        background: var(--primary);
-        color: white;
+        background: var(--light);
+        color: var(--primary);
         font-weight: 700;
       }
     }
@@ -58,6 +58,7 @@ header {
   grid-area: content;
   //   background: red;
   padding: 20px;
+  background: var(--background);
 }
 
 footer {
@@ -67,4 +68,13 @@ footer {
   font-size: 1.8rem;
   text-align: center;
   color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #666;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #74b9ff;
 }
