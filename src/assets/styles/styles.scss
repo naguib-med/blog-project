@@ -17,8 +17,40 @@
 
 header {
   grid-area: header;
-  background: green;
-  padding: 20px;
+  background: white;
+  padding: 1.5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  a {
+    color: var(--primary);
+  }
+  .header-brand {
+    font-size: 4rem;
+    font-weight: 700;
+  }
+
+  ul {
+    display: flex;
+    li {
+      .header-nav {
+        font-size: 1.8rem;
+        padding: 10px;
+        margin-left: 10px;
+        border: 1px solid var(--primary);
+        border-radius: 0.375rem;
+        color: var(--primary);
+      }
+
+      .active {
+        background: var(--primary);
+        color: white;
+        font-weight: 700;
+      }
+    }
+  }
 }
 
 .content {
@@ -29,6 +61,9 @@ header {
 
 footer {
   grid-area: footer;
-  //   background: #333;
-  padding: 20px;
+  background: var(--dark-grey);
+  padding: 2rem;
+  font-size: 1.8rem;
+  text-align: center;
+  color: white;
 }
