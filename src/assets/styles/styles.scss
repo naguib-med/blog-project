@@ -4,6 +4,7 @@
 @import "media-queries";
 @import "utils";
 @import "base";
+@import "partial _classes";
 
 .container {
   min-height: 100vh;
@@ -18,7 +19,7 @@
 header {
   grid-area: header;
   background: white;
-  padding: 1.5rem;
+  padding: 1.2rem;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
