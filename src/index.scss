@@ -17,13 +17,24 @@
 
       li {
         margin: 1rem;
-        transition: color 0.2s;
+        // transition: color 0.2s;
         cursor: pointer;
-        &:hover {
-          color: var(--link);
-          strong {
-            color: var(--link);
-          }
+        // &:hover {
+        //   color: var(--link);
+        //   strong {
+        //     color: var(--link);
+        //   }
+        // }
+      }
+
+      .active {
+        background-color: var(--primary);
+        color: white;
+        padding: 0.1px;
+        border-radius: 10px;
+        font-weight: 700;
+        strong {
+          color: var(--light);
         }
       }
     }

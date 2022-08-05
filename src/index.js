@@ -4,25 +4,35 @@ import "./index.scss";
 
 const articleContainer = document.querySelector(".articles-container");
 const categoriesContainer = document.querySelector(".categories");
+let filter;
+let articles;
 
-const createArticles = (articles) => {
-  const articlesDOM = articles.map((article) => {
-    const articleDOM = document.createElement("div");
-    articleDOM.classList.add("article");
-    articleDOM.innerHTML = `
+const createArticles = () => {
+  const articlesDOM = articles
+    .filter((article) => {
+      if (filter) {
+        return article.category === filter;
+      } else {
+        return true;
+      }
+    })
+    .map((article) => {
+      const articleDOM = document.createElement("div");
+      articleDOM.classList.add("article");
+      articleDOM.innerHTML = `
       <img
         src="${article.img}"
         alt="profile"
       />
       <h2>${article.title}</h2>
       <p class="article-author">${article.author} - ${new Date(
-      article.createdAt
-    ).toLocaleDateString("fr-FR", {
-      weekday: "long",
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    })}</p>
+        article.createdAt
+      ).toLocaleDateString("fr-FR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })}</p>
       <p class="article-content">
        ${article.content}
       </p>
@@ -34,8 +44,8 @@ const createArticles = (articles) => {
   
       `;
 
-    return articleDOM;
-  });
+      return articleDOM;
+    });
 
   articleContainer.innerHTML = "";
   articleContainer.append(...articlesDOM);
@@ -76,6 +86,20 @@ const displayMenuCategories = (categoriesArray) => {
   const liElements = categoriesArray.map((category) => {
     const li = document.createElement("li");
     li.innerHTML = `<li>${category[0]} (<strong>${category[1]}</strong>)</li>`;
+    li.addEventListener("click", () => {
+      if (filter === category[0]) {
+        filter = null;
+        li.classList.remove("active");
+        createArticles();
+      } else {
+        filter = category[0];
+        liElements.forEach((li) => {
+          li.classList.remove("active");
+        });
+        li.classList.add("active");
+        createArticles();
+      }
+    });
     return li;
   });
 
@@ -83,7 +107,7 @@ const displayMenuCategories = (categoriesArray) => {
   categoriesContainer.append(...liElements);
 };
 
-const createMenuCategories = (articles) => {
+const createMenuCategories = () => {
   const categories = articles.reduce((acc, article) => {
     if (acc[article.category]) {
       acc[article.category] += 1;
@@ -93,9 +117,11 @@ const createMenuCategories = (articles) => {
     return acc;
   }, {});
 
-  const categoriesArray = Object.keys(categories).map((category) => {
-    return [category, categories[category]];
-  });
+  const categoriesArray = Object.keys(categories)
+    .map((category) => {
+      return [category, categories[category]];
+    })
+    .sort((a, b) => a[0].localeCompare(b[0]));
 
   displayMenuCategories(categoriesArray);
 };
@@ -103,15 +129,9 @@ const createMenuCategories = (articles) => {
 const fetchArticle = async () => {
   try {
     const response = await fetch("https://restapi.fr/api/article");
-    const articles = await response.json();
-
-    createMenuCategories(articles);
-
-    if (articles.length > 1) {
-      createArticles(articles);
-    } else {
-      createArticles([articles]);
-    }
+    articles = await response.json();
+    createArticles();
+    createMenuCategories();
   } catch (error) {
     console.log("error", error);
   }
