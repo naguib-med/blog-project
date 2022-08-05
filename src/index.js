@@ -1,6 +1,7 @@
 import { async } from "regenerator-runtime";
 import "./assets/styles/styles.scss";
 import "./index.scss";
+import { openModal } from "./assets/javascripts/modal";
 
 const articleContainer = document.querySelector(".articles-container");
 const categoriesContainer = document.querySelector(".categories");
@@ -70,20 +71,25 @@ const createArticles = () => {
 
   deleteButtons.forEach((button) => {
     button.addEventListener("click", async (event) => {
-      try {
-        const target = event.target;
-        const articleId = target.dataset.id;
-        const response = await fetch(
-          `https://restapi.fr/api/article/${articleId}`,
-          {
-            method: "DELETE",
-          }
-        );
+      const result = await openModal(
+        "Etes vous sur de vouloir supprimer votre article"
+      );
+      if (result) {
+        try {
+          const target = event.target;
+          const articleId = target.dataset.id;
+          const response = await fetch(
+            `https://restapi.fr/api/article/${articleId}`,
+            {
+              method: "DELETE",
+            }
+          );
 
-        const body = await response.json();
-        fetchArticle();
-      } catch (error) {
-        console.log("error", error);
+          const body = await response.json();
+          fetchArticle();
+        } catch (error) {
+          console.log("error", error);
+        }
       }
     });
   });
