@@ -3,6 +3,7 @@ import "./assets/styles/styles.scss";
 import "./index.scss";
 
 const articleContainer = document.querySelector(".articles-container");
+const categoriesContainer = document.querySelector(".categories");
 
 const createArticles = (articles) => {
   const articlesDOM = articles.map((article) => {
@@ -71,12 +72,41 @@ const createArticles = (articles) => {
   });
 };
 
+const displayMenuCategories = (categoriesArray) => {
+  const liElements = categoriesArray.map((category) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<li>${category[0]} (<strong>${category[1]}</strong>)</li>`;
+    return li;
+  });
+
+  categoriesContainer.innerHTML = "";
+  categoriesContainer.append(...liElements);
+};
+
+const createMenuCategories = (articles) => {
+  const categories = articles.reduce((acc, article) => {
+    if (acc[article.category]) {
+      acc[article.category] += 1;
+    } else {
+      acc[article.category] = 1;
+    }
+    return acc;
+  }, {});
+
+  const categoriesArray = Object.keys(categories).map((category) => {
+    return [category, categories[category]];
+  });
+
+  displayMenuCategories(categoriesArray);
+};
+
 const fetchArticle = async () => {
   try {
     const response = await fetch("https://restapi.fr/api/article");
     const articles = await response.json();
-    console.log(articles);
-    // articles.isArray ? createArticles([articles]) : createArticles(articles);
+
+    createMenuCategories(articles);
+
     if (articles.length > 1) {
       createArticles(articles);
     } else {
